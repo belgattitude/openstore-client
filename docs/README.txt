@@ -1,4 +1,5 @@
 
 Examples 
 
-php ./bin/oclient.php product:retrieve_pictures --resolution=1200x1200 --quality=90 --layout=standard /web/tmp/800x800
+php ./bin/oclient.php product:picture:retrieve /tmp/40x40 --quality=90 --resolution=40x40 --layout=bybrand
+php ./bin/oclient.php product:picture:retrieve /tmp/large --quality=90 --resolution=800x800 --layout=standard

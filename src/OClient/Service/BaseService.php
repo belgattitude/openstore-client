@@ -1,6 +1,9 @@
 <?php
 namespace OClient\Service;
 
+use Zend\Http\Client;
+
+
 class BaseService 
 {
 	
