@@ -1,0 +1,8 @@
+/nbproject/*
+/.settings
+/.buildpath
+/.project
+/composer.lock
+/vendor
+/build
+phpunit.xml
