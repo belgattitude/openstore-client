@@ -8,7 +8,13 @@ use Zend\Http\Client;
 class PictureRetriever extends BaseService {
 
 	
-	protected $media_list_uri  = '/api/media.json';
+	/**
+	 * @var array
+	 */
+	protected $media_list_params = array(
+		'type' => 'PICTURE'
+	);
+	protected $media_list_uri  = '/api/productmedia.json';
 	protected $picture_spec = '/media/picture/{media_id}_{resolution}-{quality}.jpg';
 
 	
@@ -26,6 +32,7 @@ class PictureRetriever extends BaseService {
 		$uri = $base_url  . $this->media_list_uri;
 		
 		$client = $this->getHttpClient($uri);
+		$client->setParameterGet($this->media_list_params);
 		$response = $client->send();
 		switch ($response->getStatusCode()) {
 			case 200:

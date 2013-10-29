@@ -61,7 +61,7 @@ $config = array(
 					'default'   => '1200x1200'
 				),
 				'picture_quality' => array(
-					'supported' => array(95, 90, 85),
+					'supported' => array(95, 90, 85, 80),
 					'default' => 90
 				)
 			)
