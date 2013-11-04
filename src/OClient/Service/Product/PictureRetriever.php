@@ -83,11 +83,7 @@ class PictureRetriever extends BaseService {
 		}
 		return $binary;
 		
-		
-		
 	}
-	
-	
 	
 }
 
