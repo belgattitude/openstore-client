@@ -24,6 +24,14 @@ $config = array(
 		'key' => ''
 	),
 	'services' => array(
+		'list' => array(
+			'options' => array(
+				'format' => array(
+					'supported' => array('xml', 'json'),
+					'default' => 'xml'
+				)
+			)
+		),
 		'media' => array(
 			'options' => array(
 				'layout' => array(
