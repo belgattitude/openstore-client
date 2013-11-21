@@ -39,7 +39,16 @@ $config = array(
 							$subdir = preg_replace('/[^A-Z0-9-_]/', '_', strtoupper($media['brand_reference']));
 							if ($subdir == '') $subdir = 'UNKNOWN_BRAND';
 							return $subdir . DIRECTORY_SEPARATOR . $product_id . $suffix . ".jpg";
+						},
+						'bybrandref' => function(array $media) {
+							$product_reference	= $media['product_reference']; 
+							$suffix = ($media['flag_primary'] == 1) ? '' : " (" . $media['sort_index'] . ")";
+							$subdir = preg_replace('/[^A-Z0-9-_]/', '_', strtoupper($media['brand_reference']));
+							if ($subdir == '') $subdir = 'UNKNOWN_BRAND';
+							$filename = preg_replace('/[^A-Z0-9-\_\.\ ]/', '_', strtoupper($product_reference));
+							return $subdir . DIRECTORY_SEPARATOR . $filename . $suffix . ".jpg";
 						}		
+								
 					),
 					'default' => 'standard'
 				),
