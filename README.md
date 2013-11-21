@@ -29,6 +29,7 @@ Create configuration files
 ```sh
 	cd my/project/dir
 	git pull
+	php composer.phar update
 ```
 
 	
