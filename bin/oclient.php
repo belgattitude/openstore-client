@@ -29,6 +29,7 @@ $config = new Config(
 
 $console = new Application();
 $console->add(new Command\ProductBrandRetrieveCommand($config));
+$console->add(new Command\ProductCatalogRetrieveCommand($config));
 $console->add(new Command\ProductPictureRetrieveCommand($config));
 
 $console->run();
