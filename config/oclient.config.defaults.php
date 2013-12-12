@@ -27,10 +27,10 @@ $config = array(
 		'list' => array(
 			'options' => array(
 				'format' => array(
-					'supported' => array('xml', 'json'),
+					'supported' => array('xml', 'json', 'csv'),
 					'default' => 'xml'
 				)
-			)
+			), 
 		),
 		'media' => array(
 			'options' => array(
