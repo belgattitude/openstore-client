@@ -64,7 +64,6 @@ class ProductCatalogRetrieveCommand extends Command
 		
 		$options = $this->getOptions($input, $output);
 		
-		
 		$api_url		= $this->config->api->base_url;
 		$api_key		= $this->config->api->key;
 		
@@ -77,7 +76,13 @@ class ProductCatalogRetrieveCommand extends Command
 		
 		$format = $options['format'];
 
-		$list = $service->getList($format);
+		$parameters = array(
+			'language' => $options['language'],
+			'pricelist' => $options['pricelist'],
+			'brands' => $options['brands']
+  		);
+		
+		$list = $service->getList($format, $parameters);
 		
 		file_put_contents($options['filename'], $list);
 		
@@ -180,18 +185,22 @@ class ProductCatalogRetrieveCommand extends Command
 		// Step 3 : checking brands 
 		//
 		if ($input->hasOption('brands')) {
-			$brs = explode(',', trim($input->getOption('brands')));
-			$brands = array();
-			foreach($brs as $brand) {
-				if (!preg_match('/^([A-Z0-9-\_\ ])+$/', strtoupper(trim($brand)))) {
-					throw new \RuntimeException(
-							"Brand reference '$brand' is not valid, brands read '{$input->getOption('brands')}'"
-							);
-				} else {
-					$brands[] = trim($brand);
+			if (trim($input->getOption('brands')) != '') {
+				$brs = explode(',', trim($input->getOption('brands')));
+				$brands = array();
+				foreach($brs as $brand) {
+					if (!preg_match('/^([A-Z0-9-\_\ ])+$/', strtoupper(trim($brand)))) {
+						throw new \RuntimeException(
+								"Brand reference '$brand' is not valid, brands read '{$input->getOption('brands')}'"
+								);
+					} else {
+						$brands[] = trim($brand);
+					}
 				}
+				$options['brands'] = join(',', $brands);
+			} else {
+				$options['brands'] = null;
 			}
-			$options['brands'] = join(',', $brands);
 		}
 		
 		

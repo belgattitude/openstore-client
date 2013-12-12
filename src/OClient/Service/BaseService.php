@@ -90,5 +90,38 @@ class BaseService
 		return $client;
 	}
 	
+	/**
+	 * Execute a remote request (http) and return content
+	 * 
+	 * @param string $uri
+	 * @param array $parameters
+	 * @return string
+	 * @throws \Exception
+	 */
+	protected function retrieve($uri, $parameters=array()) 
+	{
+		
+		$client = $this->getHttpClient($uri);
+		if (count($parameters) > 0) {
+			$client->setParameterGet($parameters);
+		}
+		$response = $client->send();
+		switch ($response->getStatusCode()) {
+			case 200:
+				$list = $response->getBody();
+				if (!$list) {
+					throw new \Exception("Empty list returned $uri.");
+				}
+				break;
+			default:
+				$status = $response->getStatusCode();
+				
+				$reason = $response->getReasonPhrase();
+				throw new \Exception("Cannot retrieve product catalog list at $uri, http status code: $status returned, reason: $reason");
+		}
+		return $list;
+		
+	}
+	
 }
 

@@ -3,7 +3,7 @@
 namespace OClient\Service\Product;
 use OClient\Service\BaseService;
 
-use Zend\Http\Client;
+
 
 class PictureRetriever extends BaseService {
 

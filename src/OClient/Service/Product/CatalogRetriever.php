@@ -14,30 +14,18 @@ class CatalogRetriever extends BaseService {
 	/**
 	 * Get available medias pictures 
 	 * 
+	 * @param string $format
+	 * @param array $parameters
 	 * @return array
 	 */
-	public function getList($format) 
+	public function getList($format, $parameters=array()) 
 	{
 		$base_url = $this->getApiBaseUrl();
 		$api_key = $this->getApiKey();
 		$spec = $base_url  . $this->api_spec;
-		
 		$uri = str_replace('{format}', $format, $spec);
 		
-		$client = $this->getHttpClient($uri);
-		//$client->setParameterGet($this->media_list_params);
-		$response = $client->send();
-		switch ($response->getStatusCode()) {
-			case 200:
-				$list = $response->getBody();
-				if (!$list) {
-					throw new \Exception("Empty list returned $uri.");
-				}
-				break;
-			default:
-				$status = $response->getStatusCode();
-				throw new \Exception("Cannot retrieve product catalog list at $uri, http status code: $status returned");
-		}
+		$list = $this->retrieve($uri, $parameters);
 		return $list;
 	}
 	
