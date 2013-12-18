@@ -24,7 +24,7 @@ class CatalogRetriever extends BaseService {
 		$api_key = $this->getApiKey();
 		$spec = $base_url  . $this->api_spec;
 		$uri = str_replace('{format}', $format, $spec);
-		
+		$parameters['api_key'] = $api_key;	
 		$list = $this->retrieve($uri, $parameters);
 		return $list;
 	}
