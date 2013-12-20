@@ -7,8 +7,6 @@
 - [5: Support for exporting catalog information](https://github.com/belgattitude/openstore-client/issues/5)
 - [4: Possibility to export in CSV](https://github.com/belgattitude/openstore-client/issues/4)
 
-
-
 ## 0.3.0 (2013-11-21)
 
 - [1: High resolution pictures](https://github.com/belgattitude/openstore-client/issues/1)
