@@ -44,6 +44,9 @@ class ProductCatalogRetrieveCommand extends Command
 				->addOption(
 						'language', null, InputOption::VALUE_REQUIRED, 'What is the language you want to retrieve (en/fr/de...) ?'
 				)
+				->addOption(
+						'columns', null, InputOption::VALUE_OPTIONAL, 'What are the columns you want to retrieve ?'
+				)
 				
 				->addOption(
 						'brands', null, InputOption::VALUE_OPTIONAL, 'What are the brands to retrieve (multiple separated by ,)'
@@ -79,7 +82,8 @@ class ProductCatalogRetrieveCommand extends Command
 		$parameters = array(
 			'language' => $options['language'],
 			'pricelist' => $options['pricelist'],
-			'brands' => $options['brands']
+			'brands' => $options['brands'],
+			'columns' => $options['columns']	
   		);
 		
 		$list = $service->getList($format, $parameters);
@@ -194,7 +198,7 @@ class ProductCatalogRetrieveCommand extends Command
 								"Brand reference '$brand' is not valid, brands read '{$input->getOption('brands')}'"
 								);
 					} else {
-						$brands[] = trim($brand);
+						$brands[] = strtoupper(trim($brand));
 					}
 				}
 				$options['brands'] = join(',', $brands);
@@ -203,9 +207,32 @@ class ProductCatalogRetrieveCommand extends Command
 			}
 		}
 		
+		//
+		// Step 4 : checking columns 
+		//
+		if ($input->hasOption('columns')) {
+			if (trim($input->getOption('columns')) != '') {
+				$cols = explode(',', trim($input->getOption('columns')));
+				$columns = array();
+				foreach($cols as $column) {
+					if (!preg_match('/^([a-z0-9-\_\ ])+$/', strtolower(trim($column)))) {
+						throw new \RuntimeException(
+								"Column name '$column' is not valid, columns read '{$input->getOption('columns')}'"
+								);
+					} else {
+						$columns[] = strtolower(trim($column));
+					}
+				}
+				$options['columns'] = join(',', $columns);
+			} else {
+				$options['columns'] = null;
+			}
+		}
+
+		
 		
 		// 
-		// Step 4: Format selection
+		// Step 5: Format selection
 		//
 		
 		$format = trim($input->getOption('format'));
