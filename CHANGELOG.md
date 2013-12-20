@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## 0.5.0 (2013-12-21)
+
+- [6: Implement custom column retrieval in product catalog](https://github.com/belgattitude/openstore-client/issues/6)
+- [7: Implement product catalog retrieval](https://github.com/belgattitude/openstore-client/issues/7)
+- [5: Support for exporting catalog information](https://github.com/belgattitude/openstore-client/issues/5)
+- [4: Possibility to export in CSV](https://github.com/belgattitude/openstore-client/issues/4)
+
+
+
 ## 0.3.0 (2013-11-21)
 
 - [1: High resolution pictures](https://github.com/belgattitude/openstore-client/issues/1)
