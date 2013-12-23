@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.6.0 (2013-12-23)
+
+- [8: Charset option for CSV export](https://github.com/belgattitude/openstore-client/issues/8)
+
+
 ## 0.5.0 (2013-12-21)
 
 - [6: Implement custom column retrieval in product catalog](https://github.com/belgattitude/openstore-client/issues/6)

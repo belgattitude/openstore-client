@@ -54,6 +54,10 @@ class ProductCatalogRetrieveCommand extends Command
 				->addOption(
 						'format', null, InputOption::VALUE_REQUIRED, 'Format of the output file xml/json...'
 				)
+				->addOption(
+						'charset', null, InputOption::VALUE_OPTIONAL, 'Charset of exported file'
+				)
+				
 		;
 	}
 
@@ -83,7 +87,8 @@ class ProductCatalogRetrieveCommand extends Command
 			'language' => $options['language'],
 			'pricelist' => $options['pricelist'],
 			'brands' => $options['brands'],
-			'columns' => $options['columns']	
+			'columns' => $options['columns'],	
+			'charset' => $options['charset']	
   		);
 		
 		$list = $service->getList($format, $parameters);
@@ -231,6 +236,7 @@ class ProductCatalogRetrieveCommand extends Command
 
 		
 		
+		
 		// 
 		// Step 5: Format selection
 		//
@@ -259,6 +265,27 @@ class ProductCatalogRetrieveCommand extends Command
 		}
 		
 		$options['format'] = $format;
+
+		
+		// Step 6: charset selection for csv export
+		if ($input->hasOption('charset')) {
+			$charset = trim($input->getOption('charset'));
+			if ($charset == '') {
+				throw new \RunTimeException(
+					"Charset option is not valid, empty charset detected."
+				);			
+			}
+
+			if (!preg_match('/^([A-Za-z0-9-\_])+$/', strtoupper($charset))) {
+				throw new \RunTimeException(
+					"Charset is not valid, read '$charset'"
+				);			
+			}
+			$options['charset'] = $charset;
+			
+		}
+		
+
 		
 	
 		

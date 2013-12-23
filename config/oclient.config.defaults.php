@@ -31,6 +31,7 @@ $config = array(
 					'default' => 'xml'
 				)
 			), 
+		 	
 		),
 		'media' => array(
 			'options' => array(

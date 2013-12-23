@@ -2,6 +2,7 @@
 namespace OClient\Service;
 
 use Zend\Http\Client;
+use Zend\Http\Request;
 
 
 class BaseService 
@@ -84,10 +85,21 @@ class BaseService
 			'maxredirects' => 5,
 			'timeout'      => 30
 		))->setHeaders(array(
+			//'Contet-type' => 'text/plain',
 			'Accept-encoding' => 'gzip,deflate',
+			//'Vary' => 'UTF-8',
 			'X-Powered-By: OClient'			
 		));
 		return $client;
+	}
+	
+	
+	protected function getClientUrl(Client $client)
+	{
+		$uri = $client->getUri();
+		$query = $client->getRequest()->getQuery()->toString();
+		//$post = $client->getRequest()->getPost()->toString();
+		return $uri . '?' . $query;
 	}
 	
 	/**
@@ -100,12 +112,21 @@ class BaseService
 	 */
 	protected function retrieve($uri, $parameters=array()) 
 	{
+		ini_set('default_charset', 'UTF-8');
 		
 		$client = $this->getHttpClient($uri);
+		//$client->setEncType(Client::ENC_FORMDATA);
+		//$client->getRequest()->addHeader("Accept-Language", "en"); 
+		
 		if (count($parameters) > 0) {
 			$client->setParameterGet($parameters);
 		}
+		$url = $this->getClientUrl($client);
+		echo "Getting url: " . $url . "\n";
+
+		
 		$response = $client->send();
+		
 		switch ($response->getStatusCode()) {
 			case 200:
 				$list = $response->getBody();
@@ -119,6 +140,7 @@ class BaseService
 				$reason = $response->getReasonPhrase();
 				throw new \Exception("Cannot retrieve product catalog list at $uri, http status code: $status returned ($uri), reason: $reason");
 		}
+		
 		return $list;
 		
 	}
