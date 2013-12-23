@@ -115,9 +115,9 @@ class BaseService
 				break;
 			default:
 				$status = $response->getStatusCode();
-				
+				$uri = $client->getRequest()->getUriString();
 				$reason = $response->getReasonPhrase();
-				throw new \Exception("Cannot retrieve product catalog list at $uri, http status code: $status returned, reason: $reason");
+				throw new \Exception("Cannot retrieve product catalog list at $uri, http status code: $status returned ($uri), reason: $reason");
 		}
 		return $list;
 		
