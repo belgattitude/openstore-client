@@ -20,7 +20,13 @@
     },
     "autoload": {
         "psr-0": {"OClient": "src/"}
-    }
+    },
+    "bin": [
+        "bin/oclient.php"
+    ],
+    "config": {
+	"bin-dir": "bin"
+    }  
 }
 
 
