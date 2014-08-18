@@ -50,9 +50,9 @@ class ProductCatalogRetrieveCommand extends Command {
                 ->addOption(
                         'format', null, InputOption::VALUE_REQUIRED, 'Format of the output file xml/json...'
                 )
-               // ->addOption(
-               //         'csv-enclosure', null, InputOption::VALUE_OPTIONAL, 'Define the csv enclosure character'
-               // )
+                // ->addOption(
+                //         'csv-enclosure', null, InputOption::VALUE_OPTIONAL, 'Define the csv enclosure character'
+                // )
                 ->addOption(
                         'charset', null, InputOption::VALUE_OPTIONAL, 'Charset of exported file'
                 )
@@ -87,7 +87,7 @@ class ProductCatalogRetrieveCommand extends Command {
             'brands' => $options['brands'],
             'columns' => $options['columns'],
             'charset' => $options['charset'],
-           // 'csv-enclosure' => $options['csv-enclosure']
+                // 'csv-enclosure' => $options['csv-enclosure']
         );
 
         $list = $service->getList($format, $parameters);
@@ -190,7 +190,7 @@ class ProductCatalogRetrieveCommand extends Command {
         //
         // Step 3 : checking brands 
         //
-    if ($input->hasOption('brands')) {
+        if ($input->hasOption('brands')) {
             if (trim($input->getOption('brands')) != '') {
                 $brs = explode(',', trim($input->getOption('brands')));
                 $brands = array();
