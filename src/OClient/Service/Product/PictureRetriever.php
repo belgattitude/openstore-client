@@ -25,11 +25,15 @@ class PictureRetriever extends BaseService {
 	 * 
 	 * @return array
 	 */
-	public function getMedias() 
+	public function getMedias($params=array()) 
 	{
 		$base_url = $this->getApiBaseUrl();
 		$api_key = $this->getApiKey();
 		$uri = $base_url  . $this->media_list_uri;
+                
+                if (array_key_exists('brands', $params) && trim($params['brands']) != '') {
+                    $this->media_list_params['brands'] = $params['brands'];
+                }
 		
 		$client = $this->getHttpClient($uri);
 		$client->setParameterGet($this->media_list_params);
