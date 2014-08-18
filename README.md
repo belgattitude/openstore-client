@@ -1,7 +1,17 @@
 # Openstore client
 
-
 ## Installation
+
+### Via Composer (alternative 1)
+Soluble components can be installed via composer. For composer documentation, please refer to
+[getcomposer.org](http://getcomposer.org/).
+
+```sh
+php composer.phar require belgattitude/openstore-client:1.*
+```
+
+
+### Via github clone (alternative 2)
 
 Clone in a directory
 

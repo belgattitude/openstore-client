@@ -1,9 +1,8 @@
 <?php
-
 $config = array(
-	'api' => array(
-		'base_url' => 'http://api.domain.com',
-		'key' => 'XXXX-YYYY-ZZZZ'
-	)
+    'api' => array(
+        'base_url' => 'http://api.openstore-url.com',
+        'key' => 'XXXX-YYYY-ZZZZ'
+    )
 );
 return $config;
