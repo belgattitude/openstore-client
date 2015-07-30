@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.7.0 (2015-07-30)
+
+ - Updated pictures links to provide faster downloads
+ - Updated bundled composer
+
+
 ## 0.6.0 (2013-12-23)
 
 - [8: Charset option for CSV export](https://github.com/belgattitude/openstore-client/issues/8)

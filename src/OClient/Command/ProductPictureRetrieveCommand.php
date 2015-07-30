@@ -78,6 +78,8 @@ class ProductPictureRetrieveCommand extends Command {
 
         $medias = $service->getMedias($options);
         $count_media = count($medias['data']);
+        
+        
 
         $progress = $this->getHelperSet()->get('progress');
         $progress->start($output, $count_media);
@@ -85,10 +87,15 @@ class ProductPictureRetrieveCommand extends Command {
 
         $overwrite = $options['overwrite'];
 
+        
+        $resolution = $options['resolution'];
+        $quality = $options['quality'];
 
         foreach ($medias['data'] as $media) {
 
+            
             $output_path = $options['path'] . DIRECTORY_SEPARATOR . $layout_manager($media);
+
             if (!file_exists($output_path) || filemtime($output_path) < (int) $media['filemtime'] || $options['overwrite'] || filesize($output_path) == 0) {
 
                 if (!is_dir(dirname($output_path))) {
@@ -97,8 +104,25 @@ class ProductPictureRetrieveCommand extends Command {
                         throw new \Exception("Cannot create path : " . dirname($output_path));
                     }
                 }
-                $picture = $service->getMedia($media['media_id'], $options['resolution'], $options['quality']);
-                $ret = file_put_contents($output_path, $picture);
+
+                
+                if (false) {
+                    // Old deprecated method to retrieve picture file
+                    $picture = $service->getMedia($media['media_id'], $resolution, $quality);
+                    $ret = file_put_contents($output_path, $picture);
+                    
+                } else {
+                    $tmp_url = $media['picture_url'];
+                    $picture_specs = preg_replace('/(\d+x\d+\-\d+)/', '{resolution}-{quality}', $tmp_url);
+
+                    $url = str_replace(array('{resolution}', '{quality}'), array($resolution, $quality), $picture_specs);
+                    
+                    $picture = $service->retrieveMediaUrl($url);
+                    $ret = file_put_contents($output_path, $picture);
+                    
+                }
+                
+                
                 if (!$ret) {
                     throw new \Exception("Cannot save image : " . $output_path);
                 }
@@ -254,8 +278,8 @@ class ProductPictureRetrieveCommand extends Command {
                 $options['brands'] = null;
             }
         }
-        
-        
+
+
 
         return $options;
     }
