@@ -1,9 +1,10 @@
 # CHANGELOG
 
-## 0.7.0 (2015-07-30)
+## 1.3.0 (2015-07-30)
 
  - Updated pictures links to provide faster downloads
  - Updated bundled composer
+ - .....
 
 
 ## 0.6.0 (2013-12-23)
