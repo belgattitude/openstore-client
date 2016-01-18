@@ -10,63 +10,84 @@ use Symfony\Component\Console\Output\OutputInterface;
 use OClient\Service;
 use Zend\Config\Config;
 
-class ProductCatalogRetrieveCommand extends Command {
+class ProductCatalogRetrieveCommand extends Command
+{
 
     /**
      *
-     * @var Config 
+     * @var Config
      */
     protected $config;
 
     /**
-     * 
+     *
      * @param \Zend\Config\Config $config
      */
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         $this->config = $config;
         parent::__construct();
     }
 
-    protected function configure() {
-
-
+    protected function configure()
+    {
         $this->setName('product:catalog:retrieve')
                 ->setDescription('Retrieve product pricelist.')
                 ->addArgument(
-                        'filename', InputArgument::REQUIRED, 'What is the output filename ?'
+                    'filename',
+                    InputArgument::REQUIRED,
+                    'What is the output filename ?'
                 )
                 ->addOption(
-                        'pricelist', null, InputOption::VALUE_REQUIRED, 'What is the pricelist you want to retrieve ?'
+                    'pricelist',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'What is the pricelist you want to retrieve ?'
                 )
                 ->addOption(
-                        'language', null, InputOption::VALUE_REQUIRED, 'What is the language you want to retrieve (en/fr/de...) ?'
+                    'language',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'What is the language you want to retrieve (en/fr/de...) ?'
                 )
                 ->addOption(
-                        'columns', null, InputOption::VALUE_OPTIONAL, 'What are the columns you want to retrieve ?'
+                    'columns',
+                    null,
+                    InputOption::VALUE_OPTIONAL,
+                    'What are the columns you want to retrieve ?'
                 )
                 ->addOption(
-                        'brands', null, InputOption::VALUE_OPTIONAL, 'What are the brands to retrieve (multiple separated by ,)'
+                    'brands',
+                    null,
+                    InputOption::VALUE_OPTIONAL,
+                    'What are the brands to retrieve (multiple separated by ,)'
                 )
                 ->addOption(
-                        'format', null, InputOption::VALUE_REQUIRED, 'Format of the output file xml/json...'
+                    'format',
+                    null,
+                    InputOption::VALUE_REQUIRED,
+                    'Format of the output file xml/json...'
                 )
                 // ->addOption(
                 //         'csv-enclosure', null, InputOption::VALUE_OPTIONAL, 'Define the csv enclosure character'
                 // )
                 ->addOption(
-                        'charset', null, InputOption::VALUE_OPTIONAL, 'Charset of exported file'
+                    'charset',
+                    null,
+                    InputOption::VALUE_OPTIONAL,
+                    'Charset of exported file'
                 )
 
         ;
     }
 
     /**
-     * 
+     *
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
-
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $options = $this->getOptions($input, $output);
 
         $api_url = $this->config->api->base_url;
@@ -81,14 +102,14 @@ class ProductCatalogRetrieveCommand extends Command {
 
         $format = $options['format'];
 
-        $parameters = array(
+        $parameters = [
             'language' => $options['language'],
             'pricelist' => $options['pricelist'],
             'brands' => $options['brands'],
             'columns' => $options['columns'],
             'charset' => $options['charset'],
                 // 'csv-enclosure' => $options['csv-enclosure']
-        );
+        ];
 
         $list = $service->getList($format, $parameters);
 
@@ -97,68 +118,68 @@ class ProductCatalogRetrieveCommand extends Command {
         //if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
         $output->writeln("Success");
 
-        //} 
+        //}
     }
 
     /**
-     * 
+     *
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @return array
      */
-    protected function getOptions(InputInterface $input, OutputInterface $output) {
-
+    protected function getOptions(InputInterface $input, OutputInterface $output)
+    {
         $c = $this->config->services->list;
         if ($c === null) {
             throw new \RuntimeException('Missing configuration section config.services.list, please check your installation and configuration.');
         }
 
 
-        $options = array();
+        $options = [];
 
         $dialog = $this->getHelperSet()->get('dialog');
 
         //
         // Step 0: Checking path existence
         //
-        
+
         $filename = trim($input->getArgument('filename'));
         $path = dirname($filename);
 
         if (!is_dir($path)) {
             throw new \RunTimeException(
-            "Selected path does not exists '$path'"
+                "Selected path does not exists '$path'"
             );
         }
 
         if (!is_writable($path)) {
             throw new \RunTimeException(
-            "Selected path is not writable '$path'"
+                "Selected path is not writable '$path'"
             );
         }
         $options['filename'] = $filename;
 
-        // 
+        //
         // Step 1: Language selection
         //
-        
+
         $language = trim($input->getOption('language'));
 
         if ($language == '') {
             throw new \RunTimeException(
-            "Language option is not valid"
+                "Language option is not valid"
             );
         }
 
         if (strlen($language) != 2) {
             throw new \RunTimeException(
-            "Language code must be to alpha characters, read '$language'"
+                "Language code must be to alpha characters, read '$language'"
             );
         }
 
         if (!preg_match('/^([A-Z])+$/', strtoupper($language))) {
             throw new \RunTimeException(
-            "Language code is not valid, read '$language'"
+                "Language code is not valid, read '$language'"
             );
         }
 
@@ -167,19 +188,19 @@ class ProductCatalogRetrieveCommand extends Command {
 
 
         //
-        // Step 2 : checking pricelist 
+        // Step 2 : checking pricelist
         //
         $pricelist = trim($input->getOption('pricelist'));
 
         if ($pricelist == '') {
             throw new \RunTimeException(
-            "Pricelist option is not valid"
+                "Pricelist option is not valid"
             );
         }
 
         if (!preg_match('/^([A-Za-z0-9-\_])+$/', strtoupper($pricelist))) {
             throw new \RunTimeException(
-            "Pricelist code is not valid, read '$pricelist'"
+                "Pricelist code is not valid, read '$pricelist'"
             );
         }
 
@@ -188,44 +209,44 @@ class ProductCatalogRetrieveCommand extends Command {
 
 
         //
-        // Step 3 : checking brands 
+        // Step 3 : checking brands
         //
         if ($input->hasOption('brands')) {
             if (trim($input->getOption('brands')) != '') {
                 $brs = explode(',', trim($input->getOption('brands')));
-                $brands = array();
+                $brands = [];
                 foreach ($brs as $brand) {
                     if (!preg_match('/^([A-Z0-9-\_\ ])+$/', strtoupper(trim($brand)))) {
                         throw new \RuntimeException(
-                        "Brand reference '$brand' is not valid, brands read '{$input->getOption('brands')}'"
+                            "Brand reference '$brand' is not valid, brands read '{$input->getOption('brands')}'"
                         );
                     } else {
                         $brands[] = strtoupper(trim($brand));
                     }
                 }
-                $options['brands'] = join(',', $brands);
+                $options['brands'] = implode(',', $brands);
             } else {
                 $options['brands'] = null;
             }
         }
 
         //
-        // Step 4 : checking columns 
+        // Step 4 : checking columns
         //
         if ($input->hasOption('columns')) {
             if (trim($input->getOption('columns')) != '') {
                 $cols = explode(',', trim($input->getOption('columns')));
-                $columns = array();
+                $columns = [];
                 foreach ($cols as $column) {
                     if (!preg_match('/^([a-z0-9-\_\ ])+$/', strtolower(trim($column)))) {
                         throw new \RuntimeException(
-                        "Column name '$column' is not valid, columns read '{$input->getOption('columns')}'"
+                            "Column name '$column' is not valid, columns read '{$input->getOption('columns')}'"
                         );
                     } else {
                         $columns[] = strtolower(trim($column));
                     }
                 }
-                $options['columns'] = join(',', $columns);
+                $options['columns'] = implode(',', $columns);
             } else {
                 $options['columns'] = null;
             }
@@ -234,10 +255,10 @@ class ProductCatalogRetrieveCommand extends Command {
 
 
 
-        // 
+        //
         // Step 5: Format selection
         //
-        
+
         $format = trim($input->getOption('format'));
 
         $supported_formats = $c->options->format->supported->toArray();
@@ -246,15 +267,18 @@ class ProductCatalogRetrieveCommand extends Command {
 
         if ($format == '') {
             $idx = $dialog->select(
-                    $output, "Please select the format (default to $default_format)", $supported_formats, $default_format
+                $output,
+                "Please select the format (default to $default_format)",
+                $supported_formats,
+                $default_format
             );
             $format = $supported_formats[$idx];
             $output->writeln('You have just selected: ' . $supported_formats[$idx]);
         }
         if (!in_array($format, $supported_formats)) {
-            $formats = join(',', $supported_formats);
+            $formats = implode(',', $supported_formats);
             throw new \RunTimeException(
-            "Selected format not supported '$format', accepted values are '$formats'"
+                "Selected format not supported '$format', accepted values are '$formats'"
             );
         }
 
@@ -266,13 +290,13 @@ class ProductCatalogRetrieveCommand extends Command {
             $charset = trim($input->getOption('charset'));
             if ($charset == '') {
                 throw new \RunTimeException(
-                "Charset option is not valid, empty charset detected."
+                    "Charset option is not valid, empty charset detected."
                 );
             }
 
             if (!preg_match('/^([A-Za-z0-9-\_])+$/', strtoupper($charset))) {
                 throw new \RunTimeException(
-                "Charset is not valid, read '$charset'"
+                    "Charset is not valid, read '$charset'"
                 );
             }
             $options['charset'] = $charset;
@@ -284,5 +308,4 @@ class ProductCatalogRetrieveCommand extends Command {
 
         return $options;
     }
-
 }

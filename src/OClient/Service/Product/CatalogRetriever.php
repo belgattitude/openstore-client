@@ -3,20 +3,21 @@
 namespace OClient\Service\Product;
 
 use OClient\Service\BaseService;
-use Zend\Http\Client;
 
-class CatalogRetriever extends BaseService {
+class CatalogRetriever extends BaseService
+{
 
     protected $api_spec = '/api/productcatalog.{format}';
 
     /**
-     * Get available medias pictures 
-     * 
+     * Get available medias pictures
+     *
      * @param string $format
      * @param array $parameters
      * @return array
      */
-    public function getList($format, $parameters = array()) {
+    public function getList($format, $parameters = [])
+    {
         $base_url = $this->getApiBaseUrl();
         $api_key = $this->getApiKey();
         $spec = $base_url . $this->api_spec;
@@ -25,5 +26,4 @@ class CatalogRetriever extends BaseService {
         $list = $this->retrieve($uri, $parameters);
         return $list;
     }
-
 }

@@ -13,13 +13,15 @@
 	}
     ],
     "require": {
-        "php": ">=5.3.4",
+        "php": ">=5.4.4",
         "symfony/console" : "2.*",
         "zendframework/zend-config" : "2.*",
         "zendframework/zend-http" : "2.*"
     },
     "autoload": {
-        "psr-0": {"OClient": "src/"}
+        "psr-4": {
+            "OClient\\": "src/OClient"
+        }        
     },
     "bin": [
         "bin/oclient.php"

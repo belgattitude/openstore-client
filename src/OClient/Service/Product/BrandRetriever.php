@@ -3,18 +3,19 @@
 namespace OClient\Service\Product;
 
 use OClient\Service\BaseService;
-use Zend\Http\Client;
 
-class BrandRetriever extends BaseService {
+class BrandRetriever extends BaseService
+{
 
     protected $api_spec = '/api/productbrand.{format}';
 
     /**
-     * Get available medias pictures 
-     * 
+     * Get available medias pictures
+     *
      * @return array
      */
-    public function getList($format) {
+    public function getList($format)
+    {
         $base_url = $this->getApiBaseUrl();
         $api_key = $this->getApiKey();
         $spec = $base_url . $this->api_spec;
@@ -37,5 +38,4 @@ class BrandRetriever extends BaseService {
         }
         return $list;
     }
-
 }
