@@ -84,26 +84,34 @@ class PictureRetriever extends BaseService
     /**
      * Return media per URI
      *
+     * @param string $url
+     * @param int|null $product_id
      * @return string binary picture
+     * 
      * @throws \Exception
      */
-    public function retrieveMediaUrl($url)
+    public function retrieveMediaUrl($url, $product_id=null)
     {
         $base_url = $this->getApiBaseUrl();
         $api_key = $this->getApiKey();
 
         $client = $this->getHttpClient($url);
         $response = $client->send();
-        switch ($response->getStatusCode()) {
+        $status = $response->getStatusCode();
+
+        switch ($status) {
             case 200:
                 $binary = $response->getBody();
                 if (!$binary) {
                     throw new \Exception("Empty picture string.");
                 }
                 break;
+            case 404: 
+                // Not found
+                throw new \Exception("Image not found '$url' for product $product_id, http status code: $status returned");
+                
             default:
-                $status = $response->getStatusCode();
-                throw new \Exception("Cannot retrieve picture at $uri, http status code: $status returned");
+                throw new \Exception("Cannot retrieve picture at '$url' (product $product_id), http status code: $status returned");
         }
         return $binary;
     }

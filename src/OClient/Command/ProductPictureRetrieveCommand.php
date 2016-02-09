@@ -132,7 +132,12 @@ class ProductPictureRetrieveCommand extends Command
 
                     $url = str_replace(['{resolution}', '{quality}'], [$resolution, $quality], $picture_specs);
 
-                    $picture = $service->retrieveMediaUrl($url);
+                    try {
+                        $picture = $service->retrieveMediaUrl($url, $media['product_id']);
+                    
+                    } catch (\Exception $e) {
+                        echo "[Error] " . $e->getMessage() . "\n";
+                    }
                     $ret = file_put_contents($output_path, $picture);
                 }
 
