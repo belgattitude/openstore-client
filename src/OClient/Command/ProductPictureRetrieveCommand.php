@@ -134,17 +134,15 @@ class ProductPictureRetrieveCommand extends Command
 
                     try {
                         $picture = $service->retrieveMediaUrl($url, $media['product_id']);
-                    
+                        $ret = file_put_contents($output_path, $picture);
+                        if (!$ret) {
+                            throw new \Exception("Cannot save image : " . $output_path);
+                        }
                     } catch (\Exception $e) {
                         echo "[Error] " . $e->getMessage() . "\n";
-                    }
-                    $ret = file_put_contents($output_path, $picture);
+                    } 
                 }
 
-
-                if (!$ret) {
-                    throw new \Exception("Cannot save image : " . $output_path);
-                }
             }
             $progress->advance();
         }
